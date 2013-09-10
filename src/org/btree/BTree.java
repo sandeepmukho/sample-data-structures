@@ -1,11 +1,30 @@
 package org.btree;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 public class BTree {
     private BTreeNode root;
     private int t; // Minimum degree
 
     public BTree(int t) {
         root = null;
+        this.t = t;
+    }
+
+    public BTreeNode getRoot() {
+        return root;
+    }
+
+    public int getT() {
+        return t;
+    }
+
+    public void setRoot(BTreeNode root) {
+        this.root = root;
+    }
+
+    public void setT(int t) {
         this.t = t;
     }
 
@@ -17,6 +36,42 @@ public class BTree {
             root.traverse();
     }
 
+    void printLevelWiseTraverse() {
+        // Enqueue the root in the Queue.
+        Queue<BTreeNode> queue = new ArrayDeque<BTreeNode>();
+        queue.add(root);
+        int nodesInCurrentLevel = 1;
+        int nodesInNextLevel = 0;
+
+        while (!queue.isEmpty()) {
+            // Print the top element in the Queue and insert its children
+            BTreeNode temp = queue.poll();
+            nodesInCurrentLevel--;
+            int i;
+            for (i = 0; i < temp.getNumberOfKeys(); i++) {
+
+                System.out.print(temp.getKeys()[i] + " ");
+
+                if (temp.isLeaf() == false) {
+                    queue.add(temp.getChildNodes()[i]);
+                    nodesInNextLevel++;
+                }                
+
+            }
+            // Print the subtree rooted with last child
+            if (temp.isLeaf() == false) {
+                queue.add(temp.getChildNodes()[i]);
+                nodesInNextLevel++;
+            }
+            if (nodesInCurrentLevel == 0) {
+                System.out.println();
+                nodesInCurrentLevel = nodesInNextLevel;
+                nodesInNextLevel = 0;
+            }
+        }
+
+    }
+
     public BTreeNode search(int k) {
         return (root == null) ? null : root.search(k);
     }
@@ -26,17 +81,17 @@ public class BTree {
         // If tree is empty
         if (root == null) {
             root = new BTreeNode(t, true);
-            root.keys[0] = k;
-            root.numberOfKeys = 1; 
+            root.getKeys()[0] = k;
+            root.setNumberOfKeys(1);
         } else // If tree is not empty
         {
             // If root is full, then tree grows in height
-            if (root.numberOfKeys == 2 * t - 1) {
+            if (root.getNumberOfKeys() == 2 * t - 1) {
                 // Allocate memory for new root
                 BTreeNode s = new BTreeNode(t, false);
 
                 // Make old root as child of new root
-                s.childNodes[0] = root;
+                s.getChildNodes()[0] = root;
 
                 // Split the old root and move 1 key to the new root
                 s.splitChild(0, root);
@@ -44,9 +99,9 @@ public class BTree {
                 // New root has two children now. Decide which of the
                 // two children is going to have new key
                 int i = 0;
-                if (s.keys[0] < k)
+                if (s.getKeys()[0] < k)
                     i++;
-                s.childNodes[i].insertNonFull(k);
+                s.getChildNodes()[i].insertNonFull(k);
 
                 // Change root
                 root = s;
@@ -56,7 +111,7 @@ public class BTree {
         }
 
     }
-    
+
     @Override
     public String toString() {
         return root.toString();

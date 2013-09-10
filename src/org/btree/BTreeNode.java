@@ -1,12 +1,54 @@
 package org.btree;
 
+
 public class BTreeNode {
-    int[] keys; // An array of keys
-    int t; // Minimum degree - number of keys and child nodes are dependent on
-           // the same
-    BTreeNode[] childNodes; // An array of child pointers
-    int numberOfKeys;
-    boolean leaf; // Is true when node is leaf. Otherwise false
+    private int[] keys; // An array of keys
+    private int t; // Minimum degree - number of keys and child nodes are
+                   // dependent on
+    // the same
+    private BTreeNode[] childNodes; // An array of child pointers
+    private int numberOfKeys;
+    private boolean leaf; // Is true when node is leaf. Otherwise false
+
+    public int[] getKeys() {
+        return keys;
+    }
+
+    public int getT() {
+        return t;
+    }
+
+    public BTreeNode[] getChildNodes() {
+        return childNodes;
+    }
+
+    public int getNumberOfKeys() {
+        return numberOfKeys;
+    }
+
+    public boolean isLeaf() {
+        return leaf;
+    }
+
+    public void setKeys(int[] keys) {
+        this.keys = keys;
+    }
+
+    public void setT(int t) {
+        this.t = t;
+    }
+
+    public void setChildNodes(BTreeNode[] childNodes) {
+        this.childNodes = childNodes;
+    }
+
+    public void setNumberOfKeys(int numberOfKeys) {
+        this.numberOfKeys = numberOfKeys;
+    }
+
+    public void setLeaf(boolean leaf) {
+        this.leaf = leaf;
+    }
 
     public BTreeNode(int t, boolean leaf) {
         this.t = t;
@@ -42,6 +84,7 @@ public class BTreeNode {
         }
     }
 
+    
     /**
      * function to search a key in subtree rooted with this node
      * 

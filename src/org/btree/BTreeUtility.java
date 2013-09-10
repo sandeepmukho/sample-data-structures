@@ -1,8 +1,8 @@
 package org.btree;
 
 public class BTreeUtility {
-
-    public static void main(String[] args) {
+    
+      public static void main(String[] args) {
         BTree t = new BTree(2); 
         t.insert(10);
         t.insert(20);
@@ -16,7 +16,7 @@ public class BTreeUtility {
         t.insert(17);
         
         System.out.println( "Traversal of Nodes" );
-        t.traverse();
+        t.printLevelWiseTraverse();
         
         /*
         
